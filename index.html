@@ -1707,6 +1707,33 @@ html.intro-on,html.intro-on body{overflow:hidden}
 @keyframes iIn{from{opacity:0;transform:translateY(14px)}to{opacity:var(--o,1);transform:none}}
 @media(prefers-reduced-motion:reduce){#intro .i-logo,#intro .cap,#intro small,.i-go{animation:none;opacity:1}#intro small{opacity:.78}}
 
+/* ---------- cita de cierre de los proyectos + epílogo ---------- */
+#valor{background:var(--blue);color:#fff;padding:clamp(80px,11vw,150px) 0;position:relative;overflow:hidden}
+#valor .wrap{position:relative;z-index:2}
+#valor .sec-l{background:var(--butter);color:var(--ink)}
+.vd{position:absolute;pointer-events:none;opacity:.9}
+.v-pre{margin:0;color:var(--butter);font-size:clamp(22px,2.6vw,34px);line-height:1.1}
+.v-big{font-weight:900;text-transform:uppercase;font-size:clamp(40px,8.6vw,138px);line-height:.88;letter-spacing:-.04em;margin:.18em 0 .3em}
+.v-big em{font-style:normal;color:var(--butter)}
+.v-p{max-width:62ch;font-size:clamp(15px,1.45vw,19px);line-height:1.5;margin:0 0 clamp(30px,4vw,54px)}
+.v-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:14px}
+.v-c{border:2px solid rgba(255,255,255,.88);border-radius:14px;padding:16px 16px 18px;display:flex;flex-direction:column;gap:8px;transition:transform .25s,background .25s,color .25s}
+.v-c:nth-child(odd){transform:rotate(-.5deg)}.v-c:nth-child(even){transform:rotate(.6deg)}
+.v-c:hover{transform:translateY(-4px) rotate(0);background:var(--butter);color:var(--ink);border-color:var(--ink)}
+.v-c b{font-size:clamp(15px,1.3vw,18px);font-weight:900;letter-spacing:.06em}
+.v-c span{font-size:clamp(13px,1.1vw,15px);line-height:1.35;opacity:.92}
+
+.epi{background:var(--blush);color:var(--ink);padding:clamp(70px,9vw,130px) 0;position:relative}
+.epi .sec-l{background:var(--ink);color:#fff}
+.epi-big{font-weight:900;text-transform:uppercase;font-size:clamp(34px,6.8vw,112px);line-height:.9;letter-spacing:-.04em;margin:.12em 0 .4em}
+.epi-big em{font-style:normal;color:var(--red)}
+.epi-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(18px,3vw,44px);max-width:960px}
+.epi-p{margin:0;font-size:clamp(15px,1.4vw,19px);line-height:1.5}
+.epi-sign{display:flex;align-items:center;flex-wrap:wrap;gap:clamp(14px,2.4vw,32px);margin-top:clamp(30px,4vw,56px)}
+.epi-logo{width:clamp(150px,18vw,250px);height:auto;color:var(--blue)}
+.epi-by{font-size:clamp(22px,2.6vw,34px);line-height:1.1;color:var(--red)}
+@media(prefers-reduced-motion:reduce){.v-c{transition:none}}
+
 </style>
 </head><body style="margin:0">
 <div id="root"></div>
@@ -2356,11 +2383,28 @@ function cvHTML(){
   '<div class="cvh-p" data-p="idi" role="tabpanel" hidden>'+idi+'</div></div>';
 }
 
+/* ---------- v10.1: cita de cierre de los proyectos y epílogo del portafolio ---------- */
+function valorHTML(){
+  var ch=[['TABOT','tabot','quien pierde su tarjeta ya no quiere navegar un menú: quiere que lo atiendan ya'],['RUTA N','rutan','la empresa que aterriza necesita hacer una sola solicitud y que todo se mueva por ella'],['CELSIUS','celsius','siempre en movimiento, con el mate a mano: una identidad que acompaña ese ritmo'],['BLUR','blur','Z y Y piden lo mismo: una voz real, humana y sin filtros'],['CIFES','cifes','quien aprende, quien enseña y quien lo hace posible, cada uno cambiando de rol'],["WENDY'S",'wendys','el cliente recuerda cómo se sintió, y eso empieza con el cuidado al equipo'],['CLÍNICA CCR','ccr','un paciente que necesita sentir cerca a su doctor, antes y después de la consulta'],['CONTINENTAL','continental','la marca que usó mamá, hoy hablándole a nuevos públicos']];
+  var cards=ch.map(function(c,i){return '<li class="v-c" data-r="pop" style="--d:'+(i*.07).toFixed(2)+'s"><b data-k="v.n'+i+'">'+esc(T('v.n'+i,c[0]))+'</b><span data-k="v.d'+i+'">'+esc(T('v.d'+i,c[2]))+'</span></li>'}).join('');
+  var deco=sv('doodle02','vd sm','left:2%;top:6%;width:clamp(46px,6vw,88px);color:var(--butter)')+sv('doodle37','vd sm b','right:3%;top:9%;width:clamp(44px,5.6vw,84px);color:var(--blush)')+sv('squig08','vd sm c','right:5%;bottom:5%;width:clamp(70px,9vw,130px);color:var(--red)');
+  return '<section id="valor" data-sec>'+deco+'<div class="wrap"><span class="sec-l">después de cada proyecto</span><p class="cr v-pre">'+E('v.pre','lo que me enseñaron las personas de cada uno:','span','','data-r')+'</p>'+
+  '<h2 class="v-big">'+E('v.a','las personas cambian,','span','','data-split')+' <em>'+E('v.b','ahí está el valor.','span','','data-split')+'</em></h2>'+
+  E('v.p','Quien pierde su tarjeta, la empresa que aterriza en un complejo nuevo, el paciente que busca a su doctor, la generación que ya no consume como antes: nadie fue la misma persona de una conversación a la siguiente. Lo humano cambia, y diseñar con eso, y no contra eso, es lo que vuelve útil a un servicio, una marca o una conversación.','p','v-p','data-r')+
+  '<ul class="v-grid">'+cards+'</ul></div></section>';
+}
+function epiHTML(){
+  return '<div class="epi" id="epilogo"><div class="wrap"><span class="sec-l">para cerrar</span>'+
+  '<h2 class="epi-big">'+E('ep.a','soy diseñadora estratégica','span','','data-split')+' <em>'+E('ep.b','porque primero soy humana.','span','','data-split')+'</em></h2>'+
+  '<div class="epi-cols">'+E('ep.p1','Investigo cómo viven las personas un problema y lo convierto en servicios, marcas y conversaciones que las instituciones pueden usar de verdad. No busco la respuesta final: busco que lo que diseño sepa cambiar con quien lo usa.','p','epi-p','data-r')+
+  E('ep.p2','Eso también soy yo: curiosa, imperfecta y en constante cambio. Por eso mis proyectos nacen listos para evolucionar, igual que las personas para las que los diseño.','p','epi-p','data-r')+'</div>'+
+  '<div class="epi-sign" data-r>'+sv('logo','epi-logo')+'<span class="cr epi-by">'+E('ep.s','sujeta a cambios, muy humana, siempre contigo.','span','','')+'</span></div></div></div>';
+}
 function cierreHTML(){
   var L=[['Correo',MAIL,'mailto:'+MAIL],['Teléfono','+503 7633 1718','tel:+50376331718'],['LinkedIn','Marcela Elizabeth Cerritos','']].map(function(l,i){return '<div><dt>'+l[0]+'</dt><dd data-k="ct.'+i+'"'+(l[2]?' data-href="'+l[2]+'" title="'+(l[2].indexOf('mailto')===0?'escribirme':'llamarme')+'"':'')+'>'+esc(T('ct.'+i,l[1]))+'</dd></div>'}).join('');
   return '<section id="cierre" data-sec><div class="ct-top wrap"><span class="sec-l">contacto</span><h3 class="cr ct-h">'+E('ct.h','¿trabajamos juntos?','span','','')+'</h3><p class="ct-p">'+E('ct.p','Elige una plantilla, complétala y se abre tu correo con el mensaje listo para mí. Sin formularios eternos.','span','','')+'</p>'+
   '<button type="button" class="ret-ban" id="ret-ban" hidden><span aria-hidden="true">↩</span> retomar donde me quedé <b id="ret-l"></b></button></div>'+
-  tplHTML()+cvHTML()+ribbon('blue')+'<div class="wrap"><div class="c-grid"><div><h2 class="c-big">'+E('c.t1','gracias por','span','','data-split')+'<br>'+E('c.t2','ver/ser <3','span','','data-split')+'</h2>'+E('c.by','by marcee','p','c-by','data-r')+'</div><div class="c-wrap"><p class="c-hi cr">¿prefieres escribirme directo?</p><dl class="c-links">'+L+'</dl></div></div></div>'+
+  tplHTML()+cvHTML()+ribbon('blue')+epiHTML()+'<div class="wrap"><div class="c-grid"><div><h2 class="c-big">'+E('c.t1','gracias por','span','','data-split')+'<br>'+E('c.t2','ver/ser <3','span','','data-split')+'</h2>'+E('c.by','by marcee','p','c-by','data-r')+'</div><div class="c-wrap"><p class="c-hi cr">¿prefieres escribirme directo?</p><dl class="c-links">'+L+'</dl></div></div></div>'+
   '<div class="c-lm"><span>marcee cerritos · portafolio 2026</span><span>archivo sin versión final · última modificación: <span class="lastmod">hoy</span></span></div></section>';
 }
 
@@ -2459,13 +2503,13 @@ function introHTML(){return '<div id="intro" role="dialog" aria-label="bienvenid
 /* ---------- render ---------- */
 function renderAll(){
   var sy=soyHTML().split('<!--hago-->');
-  var parts={hero:heroHTML,quote:quoteHTML,manifesto:manifestoHTML,soy:function(){return sy[0]},hago:function(){return sy[1]},vistazo:vistazoHTML,proyectos:indexHTML,projects:function(){return CONTENT.projects.map(projectHTML).join('')},proceso:procesoHTML,cierre:cierreHTML,marcas:marcasHTML};
+  var parts={hero:heroHTML,quote:quoteHTML,manifesto:manifestoHTML,soy:function(){return sy[0]},hago:function(){return sy[1]},vistazo:vistazoHTML,proyectos:indexHTML,projects:function(){return CONTENT.projects.map(projectHTML).join('')},valor:valorHTML,proceso:procesoHTML,cierre:cierreHTML,marcas:marcasHTML};
   var h=spriteHTML()+navHTML()+'<main id="app">'+secOrder().map(function(id){return parts[id]()}).join('')+'</main>'+editUI();
   $('#root').innerHTML=h;
   applyTheme();applyHidden();applySecHidden();renumber();refreshEmpty();renderStickers();applyStyles();renderDraws();dates();
 }
-var SECDEF=[['hero','Portada (logo, hook y journal)'],['marcas','Cintillo: marcas con las que he colaborado'],['quote','Cita + stop-motion de fotos'],['manifesto','Manifiesto «sujeta a cambios»'],['soy','Soy muchas cosas (tablero)'],['hago','Lo que hago + números'],['vistazo','Mini sección: contexto rápido'],['proyectos','Índice de proyectos'],['projects','Fichas de los proyectos'],['proceso','Mi proceso'],['cierre','Contacto y cierre']];
-function secOrder(){var ids=SECDEF.map(function(s){return s[0]}),o=(ST.secOrder||[]).filter(function(x){return ids.indexOf(x)>-1});ids.forEach(function(x){if(o.indexOf(x)<0)o.push(x)});return o}
+var SECDEF=[['hero','Portada (logo, hook y journal)'],['marcas','Cintillo: marcas con las que he colaborado'],['quote','Cita + stop-motion de fotos'],['manifesto','Manifiesto «sujeta a cambios»'],['soy','Soy muchas cosas (tablero)'],['hago','Lo que hago + números'],['vistazo','Mini sección: contexto rápido'],['proyectos','Índice de proyectos'],['projects','Fichas de los proyectos'],['valor','Cita de cierre de los proyectos'],['proceso','Mi proceso'],['cierre','Contacto y cierre']];
+function secOrder(){var ids=SECDEF.map(function(s){return s[0]}),o=(ST.secOrder||[]).filter(function(x){return ids.indexOf(x)>-1});ids.forEach(function(x,i){if(o.indexOf(x)<0){var p=i?o.indexOf(ids[i-1]):-1;o.splice(p+1,0,x)}});return o}
 function applySecHidden(){
   SECDEF.forEach(function(s){var id=s[0];if(id==='projects')return;var e=document.getElementById(id);if(e)e.classList.toggle('is-hidden',!!ST.secHidden[id])});
   var a=$('.nav a.hide-s');if(a){var t=!ST.secHidden.soy?'soy':(!ST.secHidden.hago?'hago':null);if(t){a.setAttribute('data-go',t);a.href='#'+t;a.style.display=''}else a.style.display='none'}
@@ -3281,7 +3325,7 @@ function bsClose(){var p=$('#bs');if(p)p.classList.remove('on');document.body.cl
 function bsSections(){
   var L=[['hero','Portada'],['marcas','Cintillo de marcas'],['quote','Cita inicial'],['manifesto','Manifiesto'],['soy','Soy muchas cosas (tablero)'],['hago','Lo que hago y números'],['vistazo','Mini sección: contexto rápido'],['proyectos','Índice']];
   CONTENT.projects.forEach(function(p){L.push(['p:'+p.id,'Proyecto · '+(T('p.'+p.id+'.name',p.name))])});
-  L.push(['proceso','Mi proceso'],['cierre','Contacto y cierre']);return L;
+  L.push(['valor','Cita de cierre de los proyectos'],['proceso','Mi proceso'],['cierre','Contacto y cierre (incluye epílogo)']);return L;
 }
 function secNodes(id){
   if(id.indexOf('p:')===0){var pid=id.slice(2);return ['c-'+pid,pid,'i-'+pid].map(function(x){return document.getElementById(x)}).filter(Boolean)}
