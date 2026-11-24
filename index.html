@@ -1694,7 +1694,7 @@ body.edit .ctab{top:auto;bottom:140px}
 html.intro-on,html.intro-on body{overflow:hidden}
 #intro{overflow:hidden;background:var(--blue)}
 #intro .i-art,#intro .i-crs{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-#intro .cr-p{position:absolute;left:0;top:0;height:clamp(110px,19vmin,180px);width:auto;transform-origin:0 0;will-change:transform;filter:drop-shadow(3px 6px 5px rgba(2,10,90,.4))}
+#intro .cr-p{position:absolute;left:0;top:0;height:clamp(90px,15vmin,140px);width:auto;transform-origin:0 0;will-change:transform;filter:drop-shadow(2px 4px 4px rgba(2,10,90,.3))}
 #intro .box{position:relative;z-index:2;gap:clamp(10px,2.2vh,20px);padding:0 22px}
 #intro .i-logo{width:min(72vw,470px);height:auto;color:#fff;opacity:0;animation:iIn .9s .25s cubic-bezier(.2,.9,.3,1) forwards}
 #intro .cap{margin:0;font-size:clamp(24px,4.2vw,40px);line-height:1;color:var(--butter);opacity:0;animation:iIn .9s .55s cubic-bezier(.2,.9,.3,1) forwards}
@@ -3421,9 +3421,9 @@ function whoBind(){
   document.addEventListener('click',function(e){if(!e.target.closest('#whow')&&!document.body.classList.contains('edit')){w.classList.remove('open');b.setAttribute('aria-expanded',false)}});
 }
 /* ---------- landing: crayolas rojas que dibujan los doodles del KV ---------- */
-/* [símbolo, x, y (fracción de la pantalla), tamaño (fracción del lado menor), color, crayola] */
-var INTRO_L=[['doodle02',.13,.25,.30,'#f4e8b7',0],['doodle17',.09,.75,.36,'#faece3',0],['doodle30',.87,.25,.27,'#e30b13',1],['doodle10',.91,.73,.26,'#c3c425',1],['doodle34',.50,.09,.18,'#8bb9cf',2],['doodle18',.33,.90,.15,'#f4e8b7',2],['doodle37',.68,.89,.17,'#faece3',2]];
-var INTRO_P=[['doodle02',.19,.09,.30,'#f4e8b7',0],['doodle34',.52,.09,.19,'#8bb9cf',2],['doodle30',.84,.10,.28,'#e30b13',1],['doodle17',.13,.88,.42,'#faece3',0],['doodle18',.50,.92,.20,'#f4e8b7',2],['doodle10',.86,.89,.30,'#c3c425',1]];
+/* [símbolo, x, y (fracción de la pantalla), tamaño (fracción del lado menor), color] · una sola crayola los dibuja en este orden */
+var INTRO_L=[['doodle02',.13,.25,.30,'#f4e8b7'],['doodle34',.50,.09,.18,'#8bb9cf'],['doodle30',.87,.25,.27,'#e30b13'],['doodle10',.91,.73,.26,'#c3c425'],['doodle37',.68,.89,.17,'#faece3'],['doodle18',.33,.90,.15,'#f4e8b7'],['doodle17',.09,.75,.36,'#faece3']];
+var INTRO_P=[['doodle02',.19,.09,.30,'#f4e8b7'],['doodle34',.52,.09,.19,'#8bb9cf'],['doodle30',.84,.10,.28,'#e30b13'],['doodle10',.86,.89,.30,'#c3c425'],['doodle18',.50,.92,.20,'#f4e8b7'],['doodle17',.13,.88,.42,'#faece3']];
 function introArt(intro,animate){
   var svg=$('#iart',intro),crs=$('#icrs',intro),W=innerWidth,H=innerHeight,m=Math.min(W,H),L=W/H<.9?INTRO_P:INTRO_L,NS='http://www.w3.org/2000/svg';
   svg.setAttribute('viewBox','0 0 '+W+' '+H);svg.setAttribute('width',W);svg.setAttribute('height',H);
@@ -3434,20 +3434,20 @@ function introArt(intro,animate){
     for(var r=0;r<rows;r++){var yy=y+h*r/(rows-1),a=r%2?x+w+pad:x-pad,b=r%2?x-pad:x+w+pad,jy=(rr()-.5)*sw*.5;
       p+=(r?' L':'M')+a.toFixed(1)+' '+(yy+jy).toFixed(1)+' L'+b.toFixed(1)+' '+(yy-jy).toFixed(1)}
     defs+='<mask id="imk'+i+'" maskUnits="userSpaceOnUse" x="0" y="0" width="'+W+'" height="'+H+'"><path id="ipt'+i+'" d="'+p+'" fill="none" stroke="#fff" stroke-width="'+sw.toFixed(1)+'" stroke-linecap="round" stroke-linejoin="round"/></mask>';
-    g+='<g mask="url(#imk'+i+')" style="color:'+d[4]+'" opacity=".92"><use href="#s-'+d[0]+'" x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+h.toFixed(1)+'"/></g>';
+    g+='<g mask="url(#imk'+i+')" style="color:'+d[4]+'" opacity=".82"><use href="#s-'+d[0]+'" x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+h.toFixed(1)+'"/></g>';
   });
   svg.innerHTML='<defs>'+defs+'</defs>'+g;
   var paths=L.map(function(d,i){var el=document.getElementById('ipt'+i),len=el.getTotalLength();el.style.strokeDasharray=len;el.style.strokeDashoffset=animate?len:0;return {el:el,len:len}});
   crs.innerHTML='';
-  var NC=3,cr=[],q=[[],[],[]];L.forEach(function(d,i){q[d[5]].push(i)});
+  var NC=1,cr=[],q=[L.map(function(d,i){return i})];
   for(var c=0;c<NC;c++){if(!q[c].length)continue;var im=document.createElement('img');im.className='cr-p';im.src=B['crayola'];im.alt='';im.draggable=false;crs.appendChild(im);cr.push({el:im,q:q[c]})}
   function place(c,x,y,rot){c.el.style.transform='translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px) rotate('+rot.toFixed(1)+'deg) translate(-50%,0)'}
   if(!animate){cr.forEach(function(c){var i=c.q[c.q.length-1],e=paths[i],pt=e.el.getPointAtLength(e.len);place(c,pt.x+W*.02,pt.y+H*.03,205)});return null}
   /* línea de tiempo por crayola: entra → dibuja → viaja al siguiente → ... */
   var t0=performance.now()+350,tl=cr.map(function(c,k){
     var segs=[],t=k*380,prev={x:W*(k?(k===1?1.06:.5):-.06),y:-H*.25};
-    c.q.forEach(function(i){var e=paths[i],s=e.el.getPointAtLength(0),dd=Math.min(3300,Math.max(1900,e.len*1.9));
-      segs.push({k:'mv',a:prev,b:s,t0:t,t1:t+750});t+=750;
+    c.q.forEach(function(i){var e=paths[i],s=e.el.getPointAtLength(0),dd=Math.min(2700,Math.max(1600,e.len*1.35));
+      segs.push({k:'mv',a:prev,b:s,t0:t,t1:t+900});t+=900;
       segs.push({k:'dr',i:i,t0:t,t1:t+dd});t+=dd;prev=e.el.getPointAtLength(e.len);t+=120});
     return segs});
   var raf=0,stop=false,last=cr.map(function(){return {x:0,y:0}});
