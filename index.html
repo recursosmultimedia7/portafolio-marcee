@@ -2713,7 +2713,7 @@ function cierreHTML(){
   var L=[['Correo',MAIL,'mailto:'+MAIL],['Teléfono','+503 7633 1718','tel:+50376331718'],['LinkedIn','Marcela Elizabeth Cerritos','']].map(function(l,i){return '<div><dt>'+l[0]+'</dt><dd data-k="ct.'+i+'"'+(l[2]?' data-href="'+l[2]+'" title="'+(l[2].indexOf('mailto')===0?'escribirme':'llamarme')+'"':'')+'>'+esc(T('ct.'+i,l[1]))+'</dd></div>'}).join('');
   return '<section id="cierre" data-sec><div class="ct-top wrap"><span class="sec-l">contacto</span><h3 class="cr ct-h">'+E('ct.h','¿trabajamos juntos?','span','','')+'</h3><p class="ct-p">'+E('ct.p','Elige una plantilla, complétala y se abre tu correo con el mensaje listo para mí. Sin formularios eternos.','span','','')+'</p>'+
   '<button type="button" class="ret-ban" id="ret-ban" hidden><span aria-hidden="true">↩</span> retomar donde me quedé <b id="ret-l"></b></button></div>'+
-  tplHTML()+cvHTML()+ribbon('blue')+epiHTML()+'<div class="wrap"><div class="c-grid"><div><h2 class="c-big">'+E('c.t1','gracias por','span','','data-split')+'<br>'+E('c.t2','ver/ser <3','span','','data-split')+'</h2>'+E('c.by','by marcee','p','c-by','data-r')+'</div><div class="c-wrap"><p class="c-hi cr">¿prefieres escribirme directo?</p><dl class="c-links">'+L+'</dl></div></div></div>'+
+  tplHTML()+cvHTML()+ribbon('blue')+'<div class="wrap"><div class="c-grid"><div><h2 class="c-big">'+E('c.t1','gracias por','span','','data-split')+'<br>'+E('c.t2','ver/ser <3','span','','data-split')+'</h2>'+E('c.by','by marcee','p','c-by','data-r')+'</div><div class="c-wrap"><p class="c-hi cr">¿prefieres escribirme directo?</p><dl class="c-links">'+L+'</dl></div></div></div>'+
   '<div class="c-lm"><span>marcee cerritos · portafolio 2026</span><span>archivo sin versión final · última modificación: <span class="lastmod">hoy</span></span></div></section>';
 }
 
@@ -2812,12 +2812,12 @@ function introHTML(){return '<div id="intro" role="dialog" aria-label="bienvenid
 /* ---------- render ---------- */
 function renderAll(){
   var sy=soyHTML().split('<!--hago-->');
-  var parts={hero:heroHTML,quote:quoteHTML,manifesto:manifestoHTML,soy:function(){return sy[0]},hago:function(){return sy[1]},vistazo:vistazoHTML,proyectos:indexHTML,projects:function(){return CONTENT.projects.map(projectHTML).join('')},valor:valorHTML,proceso:procesoHTML,cierre:cierreHTML,marcas:marcasHTML};
+  var parts={hero:heroHTML,quote:quoteHTML,manifesto:manifestoHTML,soy:function(){return sy[0]},hago:function(){return sy[1]},vistazo:vistazoHTML,proyectos:indexHTML,projects:function(){return CONTENT.projects.map(projectHTML).join('')},valor:valorHTML,proceso:procesoHTML,epilogo:function(){return '<section id="epilogo-s" data-sec>'+epiHTML()+'</section>'},cierre:cierreHTML,marcas:marcasHTML};
   var h=spriteHTML()+navHTML()+'<main id="app">'+secOrder().map(function(id){return parts[id]()}).join('')+'</main>'+editUI();
   $('#root').innerHTML=h;
   applyTheme();applyHidden();applySecHidden();renumber();refreshEmpty();renderStickers();applyStyles();renderDraws();dates();
 }
-var SECDEF=[['hero','Portada (logo, hook y journal)'],['quote','Cita + stop-motion de fotos'],['manifesto','Manifiesto «sujeta a cambios»'],['soy','Soy muchas cosas (tablero)'],['hago','Lo que hago + números'],['vistazo','Mini sección: contexto rápido'],['proyectos','Índice de proyectos'],['projects','Fichas de los proyectos'],['valor','Cita de cierre de los proyectos'],['proceso','Mi proceso'],['marcas','Cintillo: marcas que confiaron en lo que hago'],['cierre','Contacto y cierre']];
+var SECDEF=[['hero','Portada (logo, hook y journal)'],['quote','Cita + stop-motion de fotos'],['manifesto','Manifiesto «sujeta a cambios»'],['soy','Soy muchas cosas (tablero)'],['hago','Lo que hago + números'],['vistazo','Mini sección: contexto rápido'],['proyectos','Índice de proyectos'],['projects','Fichas de los proyectos'],['valor','Cita de cierre de los proyectos'],['proceso','Mi proceso'],['epilogo','Cierre: soy diseñadora estratégica porque primero soy humana'],['marcas','Cintillo: marcas que confiaron en lo que hago'],['cierre','Contacto y cierre']];
 function secOrder(){var ids=SECDEF.map(function(s){return s[0]}),o=(ST.secOrder||[]).filter(function(x){return ids.indexOf(x)>-1});ids.forEach(function(x,i){if(o.indexOf(x)<0){var p=i?o.indexOf(ids[i-1]):-1;o.splice(p+1,0,x)}});return o}
 function applySecHidden(){
   SECDEF.forEach(function(s){var id=s[0];if(id==='projects')return;var e=document.getElementById(id);if(e)e.classList.toggle('is-hidden',!!ST.secHidden[id])});
@@ -3634,7 +3634,7 @@ function bsClose(){var p=$('#bs');if(p)p.classList.remove('on');document.body.cl
 function bsSections(){
   var L=[['hero','Portada'],['marcas','Cintillo de marcas'],['quote','Cita inicial'],['manifesto','Manifiesto'],['soy','Soy muchas cosas (tablero)'],['hago','Lo que hago y números'],['vistazo','Mini sección: contexto rápido'],['proyectos','Índice']];
   CONTENT.projects.forEach(function(p){L.push(['p:'+p.id,'Proyecto · '+(T('p.'+p.id+'.name',p.name))])});
-  L.push(['valor','Cita de cierre de los proyectos'],['proceso','Mi proceso'],['cierre','Contacto y cierre (incluye epílogo)']);return L;
+  L.push(['valor','Cita de cierre de los proyectos'],['proceso','Mi proceso'],['epilogo','Cierre: soy diseñadora estratégica'],['cierre','Contacto y agradecimiento']);return L;
 }
 function secNodes(id){
   if(id.indexOf('p:')===0){var pid=id.slice(2);return ['c-'+pid,pid,'i-'+pid].map(function(x){return document.getElementById(x)}).filter(Boolean)}
